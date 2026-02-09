@@ -25,7 +25,7 @@ def add_acute_accent(text: str) -> str:
 
 class OpenRussian(App):
     CSS_PATH = "openrussian.tcss"
-    BINDINGS = [("ctrl+d", "toggle_dark", "Toggle dark mode")]
+    BINDINGS = [("d", "toggle_dark", "Toggle dark mode")]
 
     results = getters.query_one("#results", Markdown)
     input = getters.query_one(Input)
@@ -81,8 +81,6 @@ class OpenRussian(App):
             return "\n".join(lines)
     
         # Main heading: the Russian word
-        lines.append(f"# {term}")
-        lines.append("")
     
         # === Translations / Meanings ===
         words = result_data.get("words", [])
@@ -91,6 +89,12 @@ class OpenRussian(App):
             word = main_translation.get("word")
             word_type = word.get("type") # every word must have a type
             verb_info = word.get("verb") # not all words are verb
+            
+
+            ru_term = word.get("ru")
+            lines.append(f"# {add_acute_accent(ru_term)}")
+            lines.append("")
+
             #rank = word.get("rank")
             if verb_info:
                 aspect = verb_info.get("aspect")
@@ -135,7 +139,7 @@ class OpenRussian(App):
                     lines.append("")  # Blank line between examples
     
         # Final fallback message
-        if len(lines) <= 2:  # Only has "# term"
+        if len(lines) <= 2:  # Only has "# ru_term"
             lines.append("_No translations or examples available._")
 
         return "\n".join(lines)
