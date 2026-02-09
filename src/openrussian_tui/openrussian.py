@@ -87,35 +87,41 @@ class OpenRussian(App):
         # === Translations / Meanings ===
         words = result_data.get("words", [])
         if words:
-            first_word = words[0]
-            tls2 = first_word.get("tls2", [])
+            main_translation = words[0]
+            word = main_translation.get("word")
+            word_type = word.get("type") # every word must have a type
+            verb_info = word.get("verb") # not all words are verb
+            #rank = word.get("rank")
+            if verb_info:
+                aspect = verb_info.get("aspect")
+                partner = verb_info.get("partners2")[0]['accented']
+                lines.append(aspect)
+                lines.append(word_type)
+                lines.append(f"\npartner: **{add_acute_accent(partner)}**")
+            else:
+                lines.append(word_type)
+            
+            tls2 = word.get("tls2", [])
             
             if tls2:
-                lines.append("## English Translations")
+                lines.append("## Meanings")
                 lines.append("")
                 for i, group in enumerate(tls2):
                     translations = group.get("translation", [])
+                    exmaple = group.get("examples", [])
                     if translations:
                         trans_str = ", ".join(translations)
-                        lines.append(f"- {trans_str}")
+                        lines.append(f"- **{trans_str}**")
+                        lines.append("")
+                    if exmaple:
+                        lines.append(f"  `{add_acute_accent(exmaple[0]['native'])}`")
+                        lines.append(f"*{exmaple[0]['translated']}*")
                 lines.append("")
-            else:
-                # Fallback to 'tls' if tls2 is absent
-                tls = first_word.get("tls", [])
-                all_trans = []
-                for group in tls:
-                    if isinstance(group, list):
-                        all_trans.extend(str(t) for t in group)
-                if all_trans:
-                    lines.append("## English Translations")
-                    lines.append("")
-                    lines.append(", ".join(all_trans))
-                    lines.append("")
     
         # === Bilingual Examples ===
         sentences = result_data.get("sentences", [])
         if sentences:
-            lines.append("## Example Sentences")
+            lines.append("## More Example Sentences")
             lines.append("")
             for sent in sentences[:6]:  # Show up to 6 examples
                 ru = sent.get("ru", "").strip()
