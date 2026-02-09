@@ -34,4 +34,4 @@ The main part of these codes are stolen from `/examples/dictionary.py` and the a
 ## 协议 / License
 想做什么都可以，干了坏事别找我 😆。
 
-Do anything you want to these codes, just promise that if something bad happened because of your forks, do not charge me 😆.
+Do anything you want to these codes, just promise that if something bad happened because of your forks, do not blame me 😆.

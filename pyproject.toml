@@ -27,9 +27,9 @@ classifiers = [
 dependencies = ["httpx", "textual"]
 
 [project.urls]
-Documentation = "https://github.com/qinyx-endeavour/openrussian-tui#readme"
-Issues = "https://github.com/qinyx-endeavour/openrussian-tui/issues"
-Source = "https://github.com/qinyx-endeavour/openrussian-tui"
+Documentation = "https://github.com/yuxuanqin/openrussian-tui#readme"
+Issues = "https://github.com/yuxuanqin/openrussian-tui/issues"
+Source = "https://github.com/yuxuanqin/openrussian-tui"
 
 [tool.hatch.version]
 path = "src/openrussian_tui/__about__.py"
